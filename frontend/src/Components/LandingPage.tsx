@@ -6,6 +6,7 @@ interface LandingPageState {
   stage: number,
   currentLat: number,
   currentLong: number,
+  distanceToNextStage: number
   password: string
 } 
 
@@ -17,6 +18,7 @@ export class LandingPage extends React.Component<{}, LandingPageState> {
       stage: -1,
       currentLat: undefined,
       currentLong: undefined,
+      distanceToNextStage: undefined,
       password: undefined
     }
   }
@@ -26,7 +28,10 @@ export class LandingPage extends React.Component<{}, LandingPageState> {
   }
 
   private updateCurrentLocation = () => {
-  const updatePosition = (position) => this.setState({currentLat: position.coords.latitude, currentLong: position.coords.longitude})
+  const updatePosition = (position) => {
+    this.setState({currentLat: position.coords.latitude, currentLong: position.coords.longitude})
+    this.getDistanceFromLatLonInKm()
+  }
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(updatePosition,
     (reason)=> {
@@ -37,8 +42,12 @@ export class LandingPage extends React.Component<{}, LandingPageState> {
   }
   }
 
-  private getDistanceFromLatLonInKm = () : number => {
+  private getDistanceFromLatLonInKm = () : void => {
+    console.log("hit")
     const nextStage = Stages[this.state.stage + 1]
+    if (!nextStage) {
+      return
+    }
     const targetLat = nextStage.targetLat
     const targetLong = nextStage.targetLong
 
@@ -55,10 +64,13 @@ export class LandingPage extends React.Component<{}, LandingPageState> {
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
     var d = R * c; // Distance in km
     if (d < 0.5) {
-      this.setState({stage: this.state.stage + 1}, () => alert("you reached destination " + this.state.stage))
-      return this.getDistanceFromLatLonInKm()
+      this.setState({stage: this.state.stage + 1}, () => {
+        this.getDistanceFromLatLonInKm()
+        alert("you reached destination " + this.state.stage)
+      })
     }
-    return d;
+
+    this.setState({distanceToNextStage: d})
   }
 
   private submitPassword = () : void => {
@@ -82,7 +94,7 @@ export class LandingPage extends React.Component<{}, LandingPageState> {
       <>
       {this.state.currentLat && <Text>currentLat: {this.state.currentLat}</Text>}
       {this.state.currentLong && <Text>currentLong: {this.state.currentLong}</Text>}
-      {this.state.currentLat && this.state.currentLong && <Text>dist to next stage: {this.getDistanceFromLatLonInKm()} kms</Text>}
+      {this.state.currentLat && this.state.currentLong && <Text>dist to next stage: {this.state.distanceToNextStage} kms</Text>}
       <IconButton iconProps={{iconName: "CompassNW"}} onClick={this.updateCurrentLocation}/>
       <TextField onChange={(event, newValue) => this.setState({password: newValue})}/>
       <PrimaryButton text="submit password" onClick={this.submitPassword}/>
