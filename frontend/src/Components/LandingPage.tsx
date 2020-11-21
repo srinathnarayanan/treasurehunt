@@ -21,8 +21,8 @@ export class LandingPage extends React.Component<{}, LandingPageState> {
     }
   }
 
-  componentDidMount() {
-    this.updateCurrentLocation()
+  componentDidCatch(reason: any) {
+    alert(reason)
   }
 
   private updateCurrentLocation = () => {
@@ -30,7 +30,7 @@ export class LandingPage extends React.Component<{}, LandingPageState> {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(updatePosition,
     (reason)=> {
-      console.log(reason)
+      alert(reason)
     });
   } else {
     alert("Geolocation is not supported by this browser.");
@@ -75,14 +75,14 @@ export class LandingPage extends React.Component<{}, LandingPageState> {
 
   render() {
     return (
-      <Stack styles={{root: {width: 300}}}>
+      <Stack styles={{root: {width: 300, padding: 10}}}>
       <h1>treasure hunt</h1>
       <Text>stage: {this.state.stage}</Text>
       {this.state.stage !== Stages.length - 1 ? 
       <>
-      <Text>currentLat: {this.state.currentLat}</Text>
-      <Text>currentLong: {this.state.currentLong}</Text>
-      <Text>dist to next stage: {this.getDistanceFromLatLonInKm()} kms</Text>
+      {this.state.currentLat && <Text>currentLat: {this.state.currentLat}</Text>}
+      {this.state.currentLong && <Text>currentLong: {this.state.currentLong}</Text>}
+      {this.state.currentLat && this.state.currentLong && <Text>dist to next stage: {this.getDistanceFromLatLonInKm()} kms</Text>}
       <IconButton iconProps={{iconName: "CompassNW"}} onClick={this.updateCurrentLocation}/>
       <TextField onChange={(event, newValue) => this.setState({password: newValue})}/>
       <PrimaryButton text="submit password" onClick={this.submitPassword}/>
