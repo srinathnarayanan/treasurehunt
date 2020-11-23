@@ -1,0 +1,8 @@
+.title {
+    text-align: center;
+    justify-content: center;
+    align-items: baseline;
+    padding: 1em;
+    background-color: #000;
+    color: rgb(134, 181, 237);
+  }

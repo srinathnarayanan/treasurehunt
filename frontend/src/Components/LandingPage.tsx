@@ -1,6 +1,6 @@
-import { Text, PrimaryButton, IconButton, IconNames, Stack, initializeIcons, TextField } from 'office-ui-fabric-react';
+import { Text, PrimaryButton, IconButton, Stack, initializeIcons, TextField } from 'office-ui-fabric-react';
 import * as React from 'react'
-import { Stages } from './Utils';
+import { source, gamesitry, Stages, Stage } from './Utils';
 
 interface LandingPageState {
   stage: number,
@@ -23,10 +23,6 @@ export class LandingPage extends React.Component<{}, LandingPageState> {
     }
   }
 
-  componentDidCatch(reason: any) {
-    alert(reason)
-  }
-
   private updateCurrentLocation = () => {
   const updatePosition = (position) => {
     this.setState({currentLat: position.coords.latitude, currentLong: position.coords.longitude})
@@ -43,11 +39,26 @@ export class LandingPage extends React.Component<{}, LandingPageState> {
   }
 
   private getDistanceFromLatLonInKm = () : void => {
-    console.log("hit")
+    
+    let distanceToNextStage = this.calculateDistanceToNextStage()
+
+    if (distanceToNextStage < 1) {
+      this.setState({stage: this.state.stage + 1}, () => {
+        let distanceToNextStage = this.calculateDistanceToNextStage()
+        alert(`you reached ${Stages[this.state.stage].name}!`)
+        this.setState({distanceToNextStage: distanceToNextStage})
+      })
+    } else {
+      this.setState({distanceToNextStage: distanceToNextStage})
+    }
+  }
+
+  private calculateDistanceToNextStage = () : number => {
     const nextStage = Stages[this.state.stage + 1]
     if (!nextStage) {
-      return
+      return undefined
     }
+
     const targetLat = nextStage.targetLat
     const targetLong = nextStage.targetLong
 
@@ -63,15 +74,9 @@ export class LandingPage extends React.Component<{}, LandingPageState> {
       Math.sin(dLon/2) * Math.sin(dLon/2); 
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
     var d = R * c; // Distance in km
-    if (d < 0.5) {
-      this.setState({stage: this.state.stage + 1}, () => {
-        this.getDistanceFromLatLonInKm()
-        alert("you reached destination " + this.state.stage)
-      })
-    }
-
-    this.setState({distanceToNextStage: d})
-  }
+    return d
+  } 
+  
 
   private submitPassword = () : void => {
     if (Stages[this.state.stage + 1].password === this.state.password) {
@@ -85,24 +90,42 @@ export class LandingPage extends React.Component<{}, LandingPageState> {
     return deg * (Math.PI/180)
   }
 
+  private getStageElement(): JSX.Element {
+    if (this.state.stage === -1) {
+      return source
+    } else if (this.state.stage === Stages.length) {
+      return gamesitry
+    }
+    return Stages[this.state.stage].element
+  }
+
   render() {
     return (
-      <Stack styles={{root: {width: 300, padding: 10}}}>
-      <h1>treasure hunt</h1>
-      <Text>stage: {this.state.stage}</Text>
-      {this.state.stage !== Stages.length - 1 ? 
       <>
-      {this.state.currentLat && <Text>currentLat: {this.state.currentLat}</Text>}
-      {this.state.currentLong && <Text>currentLong: {this.state.currentLong}</Text>}
-      {this.state.currentLat && this.state.currentLong && <Text>dist to next stage: {this.state.distanceToNextStage} kms</Text>}
-      <IconButton iconProps={{iconName: "CompassNW"}} onClick={this.updateCurrentLocation}/>
+      <h1 className="title"> Bubble's day out! </h1>
+      <div style={{padding: 10, height: "60vh", overflowY: "scroll"}}>
+      {this.getStageElement()}
+      </div>
+      <Stack tokens={{childrenGap: 5}} styles={{root: {width: 300, padding: 10}}}>
+      {this.state.stage !== Stages.length - 1 && 
+      <>
+      {
+      this.state.currentLat && this.state.currentLong && 
+      <Text>You are in a {this.state.distanceToNextStage?.toFixed(2)} km radius of the location!</Text>
+      }
+      <Stack horizontal tokens={{childrenGap: 5}} verticalAlign="center">
+        <Text>
+          Are you at the right place?
+        </Text>
+        <IconButton iconProps={{iconName: "CompassNW"}} onClick={this.updateCurrentLocation}/>
+      </Stack>
       <TextField onChange={(event, newValue) => this.setState({password: newValue})}/>
       <PrimaryButton text="submit password" onClick={this.submitPassword}/>
       </>
-      :
-      <Text>Game over! well done</Text>
       }
       </Stack>
+      </>
     )
   }
+
 }
