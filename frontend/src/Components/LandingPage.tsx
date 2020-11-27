@@ -1,4 +1,4 @@
-import { Text, PrimaryButton, IconButton, Stack, initializeIcons, TextField } from 'office-ui-fabric-react';
+import { Text, PrimaryButton, IconButton, Stack, initializeIcons, TextField, ITextField } from 'office-ui-fabric-react';
 import * as React from 'react'
 import { source, gamesitry, Stages, Stage } from './Utils';
 
@@ -45,7 +45,7 @@ export class LandingPage extends React.Component<{}, LandingPageState> {
     if (distanceToNextStage < 1) {
       this.setState({stage: this.state.stage + 1}, () => {
         let distanceToNextStage = this.calculateDistanceToNextStage()
-        alert(`you reached ${Stages[this.state.stage].name}!`)
+        alert(`you reached ${Stages[this.state.stage].name}! unlocking next level ...`)
         this.setState({distanceToNextStage: distanceToNextStage})
       })
     } else {
@@ -79,8 +79,11 @@ export class LandingPage extends React.Component<{}, LandingPageState> {
   
 
   private submitPassword = () : void => {
-    if (Stages[this.state.stage + 1].password === this.state.password) {
-      this.setState({stage: this.state.stage + 1, password: undefined}, () => alert("correct password. unlocking " + this.state.stage))
+    const filteredPassword = this.state.password.trim().toLowerCase()
+    if (Stages[this.state.stage + 1].password === filteredPassword) {
+      this.setState({stage: this.state.stage + 1, password: undefined}, () => {
+        alert(`you reached ${Stages[this.state.stage].name}! unlocking next level ...`)
+      })
     } else {
       alert("incorrect password")
     }

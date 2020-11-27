@@ -13,7 +13,7 @@ export const source : JSX.Element =
     <img src="/images/bubbles.png" style={{float: "right", height: 150}}/>
     There once lived a cute, smart, confient, absolutely adorable crime fighting superhero called Bubble.
     She was used to life in Chennai, but time had come for her to move on to a new home.
-    Chennai had given her a lot of things, her first job, a car, freedom, a boyfriend...
+    Chennai had given her a lot of things - her first job, a car, freedom, a boyfriend...
 <br/>
 <br/>
 <img src="/images/Johnny.gif" style={{float: "left", height: 150, paddingRight: 5}}/>
@@ -34,19 +34,38 @@ export const source : JSX.Element =
 
 const alandur : JSX.Element = 
 <Text>
-    Alandur answer 
-    Phoenix Market city Q.
+    Bubble knew immediately what this place was. She was already there. She had just missed Johnny.
+    <img src="/images/Johnny.gif" style={{float: "left", height: 150, paddingRight: 5}}/>
+    <br/>
+    <br/>
+    She knew she had to hurry. As bubble was searching the metro station, she tried to not be too conscpicuous.
+    She tried to think where Johnny might have left the next clue. It was then that she spotted a ticket vending machine,
+    with something off about it. The ticket had been dispersed but had not been pciked up. She took a look at it.
+    Just as she had suspected, it was not just a ticket. It was the next clue.
+    <br/>
+    <br/> The back of the ticket had this printed : 
+    <b> "We always stood by each other, come what may. This was one such day. We will always rise from the ashes.
+        PS: thanks for making me smell so good!"</b>
 </Text>
 
 const phoenix : JSX.Element = 
 <Text>
-    Phoenix Market city Answer
-    Chaat Chatore Q
+    Next stop was Phoenix Market City. As memories of that roller coaster of a day flashed before Bubble's eyes, 
+    she made her way to the mall. The last time they were here, she had driven her car. Now that was a memory she 
+    actively tried to suppress.
+    <img src="/images/Johnny.gif" style={{float: "left", height: 150, paddingRight: 5}}/>
+    <br/>
+    <br/>
+    As Bubble tried to enter the mall, she was asked to write an entry in a book kept at the entrance that was
+    used to contact trace folks who visited the mall and ended by testing positive for COVID-19. She was writing 
+    her name, and it was then that she spotted an intriguing name written a few rows above. It simply read 
+    <b>"Bubl"</b>, and the address line read <b>"F.W.Orks, No 2010, Keep customers for life Lane"</b>
 </Text>
 
-const chaat : JSX.Element = 
+const freshworks : JSX.Element = 
 <Text>
-    Chaat Chatore Answer
+    Johnny had to be the one who left the entry as a hint. Bubble's next stop was her former place of work, 
+    Freshworks. She left in a hurry.
     Kipling Cafe Q
 </Text>
 
@@ -90,11 +109,11 @@ export const Stages : Stage[] = [
         password: "phoenix"
     },
     {
-        element: chaat,
-        targetLat: 12.991653042494033,
-        targetLong: 80.22332628636919,
-        name: "Chaat Chatore",
-        password: "chaat"
+        element: freshworks,
+        targetLat: 12.9695806,
+        targetLong: 80.2437501,
+        name: "Fresh Works",
+        password: "freshworks"
     },
     {
         element: kipling,
