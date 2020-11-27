@@ -106,7 +106,7 @@ export class LandingPage extends React.Component<{}, LandingPageState> {
     return (
       <>
       <h1 className="title"> Bubble's day out! </h1>
-      <div style={{padding: 10, height: "60vh", overflowY: "scroll"}}>
+      <div style={{padding: 10, overflowY: "scroll"}}>
       {this.getStageElement()}
       </div>
       <Stack tokens={{childrenGap: 5}} styles={{root: {width: 300, padding: 10}}}>
@@ -114,7 +114,7 @@ export class LandingPage extends React.Component<{}, LandingPageState> {
       <>
       <Stack horizontal tokens={{childrenGap: 5}} verticalAlign="center">
         <Text>
-          Are you at the right place?
+          <b><i>Are you at the right place?</i></b>
         </Text>
         <IconButton iconProps={{iconName: "CompassNW"}} onClick={this.updateCurrentLocation}/>
       </Stack>
