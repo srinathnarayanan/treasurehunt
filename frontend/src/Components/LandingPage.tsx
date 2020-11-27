@@ -112,16 +112,16 @@ export class LandingPage extends React.Component<{}, LandingPageState> {
       <Stack tokens={{childrenGap: 5}} styles={{root: {width: 300, padding: 10}}}>
       {this.state.stage !== Stages.length - 1 && 
       <>
-      {
-      this.state.currentLat && this.state.currentLong && 
-      <Text>You are in a {this.state.distanceToNextStage?.toFixed(2)} km radius of the location!</Text>
-      }
       <Stack horizontal tokens={{childrenGap: 5}} verticalAlign="center">
         <Text>
           Are you at the right place?
         </Text>
         <IconButton iconProps={{iconName: "CompassNW"}} onClick={this.updateCurrentLocation}/>
       </Stack>
+      {
+      this.state.currentLat && this.state.currentLong && 
+      <Text>You are in a {this.state.distanceToNextStage?.toFixed(2)} km radius of the location!</Text>
+      }
       <TextField onChange={(event, newValue) => this.setState({password: newValue})}/>
       <PrimaryButton text="submit password" onClick={this.submitPassword}/>
       </>
