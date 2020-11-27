@@ -106,7 +106,7 @@ export class LandingPage extends React.Component<{}, LandingPageState> {
     return (
       <>
       <h1 className="title"> Bubble's day out! </h1>
-      <div style={{padding: 10, overflowY: "scroll"}}>
+      <div style={{padding: 10}}>
       {this.getStageElement()}
       </div>
       <Stack tokens={{childrenGap: 5}} styles={{root: {width: 300, padding: 10}}}>
